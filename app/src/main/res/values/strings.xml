@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Pizzeria</string>
+    <string name="title_activity_enable_location">EnableLocation</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_home_page">HomePage</string>
+</resources>
