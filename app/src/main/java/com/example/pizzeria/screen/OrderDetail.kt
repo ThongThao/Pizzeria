@@ -88,7 +88,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderDetailItemScreen(navController: NavController ,orderId: String,
-                          orderViewModel: OrderViewModel = viewModel(),){
+                          orderViewModel: OrderViewModel = viewModel(),userId:String?){
     val scrollState = rememberLazyListState()
     var orderDetail by remember(orderId) {
         mutableStateOf<Order?>(null)
@@ -107,7 +107,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screen.Cart.rout)
+                    navController.navigate(Screen.Cart.createRoute(userId!!))
                 },
                 backgroundColor = yellow1,
                 contentColor = Color.White,
@@ -139,7 +139,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                         modifier = Modifier.padding(start = 15.dp)
                     ) {
                         Button(
-                            onClick = { },
+                            onClick = { navController.popBackStack()},
                             contentPadding = PaddingValues(),
                             shape = Shapes.small,
                             colors = ButtonDefaults.buttonColors(
@@ -178,7 +178,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                             selected =  selectedItem.value == "Home",
                             onClick = {
                                 selectedItem.value = "Home"
-                                navController.navigate(Screen.Home.rout)
+                                navController.navigate(Screen.Home.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -192,7 +192,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                             selected =  selectedItem.value == "Wishlist",
                             onClick = {
                                 selectedItem.value = "Wishlist"
-                                navController.navigate(Screen.Wishlist.rout)
+                                navController.navigate(Screen.Wishlist.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -207,7 +207,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                             selected =  selectedItem.value == "Ordered",
                             onClick = {
                                 selectedItem.value = "Ordered"
-                                navController.navigate(Screen.Ordered.rout)
+                                navController.navigate(Screen.Ordered.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -221,7 +221,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                             selected =  selectedItem.value == "Profile",
                             onClick = {
                                 selectedItem.value = "Profile"
-                                navController.navigate(Screen.Profile.rout)
+                                navController.navigate(Screen.Profile.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -458,6 +458,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                                 Button(
                                     onClick = {
                                         updateOrderStatus(orderDetail?.id ?: "", OrderStatus.Delivered)
+                                        navController.navigate("order_detail/$userId/${orderDetail?.id}")
                                     },
                                     modifier = Modifier
                                         .fillMaxWidth()

@@ -30,24 +30,16 @@ class CartViewModel : ViewModel() {
                     val updatedList = cart.listItem.toMutableList()
                     val existingItemIndex = updatedList.indexOfFirst { it.id == cartItem.id }
                     if (existingItemIndex != -1) {
-                        // Item exists, update it
                         val existingItem = updatedList[existingItemIndex]
                         val updatedItem = existingItem.copy(
-                            quantity = cartItem.quantity,
+                            quantity =cartItem.quantity,
                             price = cartItem.price
                         )
                         updatedList[existingItemIndex] = updatedItem
                     } else {
-                        // Item does not exist, add it
                         updatedList.add(cartItem)
                     }
-
-                    // Calculate the updated total
-                    val updatedTotal = updatedList.sumBy { it.price.toInt() * it.quantity.toInt() }
-
-                    // Create updated Cart
-                    val updatedCart = cart.copy(listItem = updatedList, total = updatedTotal.toDouble())
-                    userCartRef.set(updatedCart)
+                    userCartRef.update("listItem", updatedList)
                 } else {
                     val newCart = Cart(
                         idCart = UUID.randomUUID().toString(),

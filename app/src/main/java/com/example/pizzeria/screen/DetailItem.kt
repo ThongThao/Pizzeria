@@ -63,6 +63,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.pizzeria.R
+import com.example.pizzeria.nav.Screen
 import com.example.pizzeria.ui.theme.AppBarCollapsedHeight
 import com.example.pizzeria.ui.theme.AppBarExpendedHeight
 import com.example.pizzeria.ui.theme.Shapes
@@ -102,7 +103,7 @@ fun DetailItem(
             }
         }
     )
-    var value by remember { mutableStateOf(2) }
+    var value by remember { mutableStateOf(1) }
     val product by viewModel.product.collectAsState()
     val scrollState = rememberLazyListState()
     val imageHeight = AppBarExpendedHeight - AppBarCollapsedHeight
@@ -292,6 +293,7 @@ Column(modifier = Modifier
                     // Error handling
                 }
             )
+            navController.navigate(Screen.Home.createRoute(user?.userID!!))
 
         },
         shape = CircleShape,

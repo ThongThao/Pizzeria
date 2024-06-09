@@ -184,7 +184,7 @@ fun OrderHistory(
                         ) {
                             androidx.compose.material.Surface(
                                 onClick = {
-                                    navController.navigate("order_detail/${it.id}")
+                                    navController.navigate("order_detail/${user?.userID}/${it.id}")
                                 },
                                 shape = Shapes.small,
                                 color = Color.White,

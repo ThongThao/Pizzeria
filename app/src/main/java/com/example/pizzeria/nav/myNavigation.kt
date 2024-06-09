@@ -119,13 +119,18 @@ fun MyNavigation(){
             OrderHistory(userId!!,navController = navController)
         }
         composable(
-            "order_detail/{orderId}",
-            arguments = listOf(navArgument("orderId") { type = NavType.StringType })
+            "order_detail/{userId}/{orderId}",
+            arguments = listOf(
+                navArgument("userId") { type = NavType.StringType },
+                navArgument("productId") { type = NavType.StringType }
+            )
         ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
             val orderId = backStackEntry.arguments?.getString("orderId") ?: return@composable
             OrderDetailItemScreen(
                 orderId = orderId,
-                navController = navController
+                navController = navController,
+                userId = userId
             )
         }
         composable(Screen.Profile.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })

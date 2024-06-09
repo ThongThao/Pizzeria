@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -36,6 +37,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
@@ -120,7 +122,7 @@ fun HomeScreen(userId:String?,
                 }
             },
             topBar = {
-                HeaderLocation()
+                HeaderLocation(user!!)
             },
             bottomBar = {
                 val selectedItem = remember { mutableStateOf("Home") }
@@ -333,7 +335,7 @@ fun HomeScreen(userId:String?,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeaderLocation(){
+fun HeaderLocation(user: User){
 
     //location
     var location by remember { mutableStateOf("") }
@@ -401,18 +403,32 @@ fun HeaderLocation(){
                     )
                 },
                 actions = {
-                    Image(
-                        painter = painterResource(id = R.drawable.avar),
-                        contentDescription = "avatar",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(42.dp)
-                            .clip(RoundedCornerShape(15.dp))
-                    )
+                    ProfileImage1(image = user.image.toString())
                 }
             )
         }
     }
+}
+@Composable
+fun ProfileImage1(modifier: Modifier = Modifier, image: String) {
+
+        val placeholderImage = painterResource(id = R.drawable.avar)// Thay thế bằng ID của ảnh mặc định của bạn
+
+        val imagePainter = if (image.isNullOrEmpty()) {
+            placeholderImage
+        } else {
+            rememberAsyncImagePainter(model = image)
+        }
+        Image(
+            painter = imagePainter,
+            contentDescription = "avatar",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(42.dp)
+                .padding(3.dp)
+                .clip(RoundedCornerShape(15.dp))
+        )
+
 }
 
 //ham lay vi tri
