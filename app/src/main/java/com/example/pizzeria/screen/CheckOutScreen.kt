@@ -30,7 +30,10 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonElevation
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -38,6 +41,7 @@ import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -62,6 +66,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -106,6 +111,11 @@ fun CheckOutScreen(
     userId?.let {
         cartViewModel.getCart(userId)
         cartViewModel.getCart2(userId)
+    }
+    var location by remember { mutableStateOf("") }
+    getLocation(LocalContext.current) { specificLocation ->
+        // Cập nhật biến location với chuỗi địa chỉ cụ thể
+        location = "$specificLocation"
     }
     val scrollState = rememberLazyListState()
     user.let {
@@ -306,7 +316,7 @@ fun CheckOutScreen(
                                 Spacer(modifier = Modifier.height(10.dp))
                                 //so duong
                                 Text(
-                                    text = "${user?.address}",
+                                    text = location,
                                     fontSize = 16.sp,
                                     color = Color.DarkGray
                                 )
@@ -345,27 +355,6 @@ fun CheckOutScreen(
                                         null,
                                         modifier = Modifier
                                             .size(16.dp),
-                                        tint = White
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(10.dp))
-                                Button(
-                                    onClick = { },
-                                    contentPadding = PaddingValues(),
-                                    shape = CircleShape,
-                                    colors = ButtonDefaults.buttonColors(
-                                        backgroundColor = delete,
-                                        contentColor = White
-                                    ),
-                                    modifier = Modifier
-                                        .width(25.dp)
-                                        .height(25.dp)
-                                ) {
-                                    androidx.compose.material3.Icon(
-                                        imageVector = Icons.Rounded.Delete,
-                                        null,
-                                        modifier = Modifier
-                                            .size(17.dp),
                                         tint = White
                                     )
                                 }
@@ -559,4 +548,76 @@ fun CheckOutScreen(
     }
 
     }
+}
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun EditShippingInfoBottomSheet(
+    onDismissRequest: () -> Unit,
+    onSave: (String, String, String) -> Unit, // fullName, phoneNumber, address
+    currentFullName: String,
+    currentPhoneNumber: String,
+    currentAddress: String
+) {
+    var fullName by rememberSaveable { mutableStateOf(currentFullName) }
+    var phoneNumber by rememberSaveable { mutableStateOf(currentPhoneNumber) }
+    var address by rememberSaveable { mutableStateOf(currentAddress) }
+
+    ModalBottomSheetLayout(
+        sheetContent = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("Edit Shipping Information", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = fullName,
+                    onValueChange = { fullName = it },
+                    label = { Text("Full Name") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = phoneNumber,
+                    onValueChange = { phoneNumber = it },
+                    label = { Text("Phone Number") },
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = address,
+                    onValueChange = { address = it },
+                    label = { Text("Address") },
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(onClick = onDismissRequest) {
+                        Text("Cancel")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(onClick = {
+                        onSave(fullName, phoneNumber, address)
+                        onDismissRequest()
+                    }) {
+                        Text("Save")
+                    }
+                }
+            }
+        },
+        sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
+        content = {
+            // Your main screen content
+        }
+    )
 }

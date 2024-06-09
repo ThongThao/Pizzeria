@@ -255,10 +255,10 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                             modifier = Modifier.height(20.dp)
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        orderDetail?.date?. let { date ->
+                        orderDetail?.date?.let { date ->
                             val formattedDate = SimpleDateFormat(
                                 "dd/MM/yyyy HH:mm",
-                                Locale.getDefault()
+                                Locale("vi", "VN")
                             ).format(date)
                             Text(
                                 text = formattedDate,
@@ -267,6 +267,8 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                                 color = blackcart
                             )
                         }
+
+
                     }
 
                     Surface(

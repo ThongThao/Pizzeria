@@ -109,7 +109,7 @@ fun CheckOutSuccess(
                         Spacer(modifier = Modifier.height(40.dp))
                         Button(
                             onClick = {
-                               navController.navigate(Screen.Home.createRoute(userId))
+                               navController.navigate(Screen.Ordered.createRoute(userId))
                             },
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(

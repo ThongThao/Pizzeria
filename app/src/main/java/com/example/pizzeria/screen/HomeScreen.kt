@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -363,7 +364,7 @@ fun HeaderLocation(user: User){
                 title = {
                     Box(
                     modifier = Modifier
-                        .height(50.dp)
+                        .height(40.dp)
                         .width(240.dp)
                         .background(Color.White)
                     ) {

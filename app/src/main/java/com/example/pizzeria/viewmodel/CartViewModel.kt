@@ -99,7 +99,12 @@ class CartViewModel : ViewModel() {
             }
         }
     }
-    fun placeOrder(userId: String, user: User?, cartItems: List<CartItem>, note: String,total:Double) {
+    fun placeOrder(
+        userId: String,
+        user: User?,
+        cartItems: List<CartItem>,
+        note: String,
+        total:Double) {
         viewModelScope.launch {
             try {
                 // Tạo đối tượng Order từ thông tin hiện tại của giỏ hàng và thông tin của người dùng

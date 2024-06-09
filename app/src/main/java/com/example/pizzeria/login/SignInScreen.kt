@@ -109,7 +109,7 @@ fun SignInScreen(
                 onValueChange = { email=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(75.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -134,7 +134,7 @@ fun SignInScreen(
                 onValueChange = { password=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(75.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {

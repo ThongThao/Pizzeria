@@ -258,10 +258,10 @@ fun OrderedScreen(
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                it.date?. let { date ->
-                                    val formattedDate = SimpleDateFormat(
-                                        "dd/MM/yyyy HH:mm",
-                                        Locale.getDefault()
-                                    ).format(date)
+                                   val formattedDate = SimpleDateFormat(
+                                       "dd/MM/yyyy HH:mm",
+                                       Locale("vi", "VN")
+                                   ).format(date)
                                     Text(
                                         text = formattedDate,
                                         fontWeight = FontWeight.Medium,

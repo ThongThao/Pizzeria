@@ -283,7 +283,7 @@ Column(modifier = Modifier
         shape = CircleShape,
         backgroundColor = redlight,
         contentColor = Color.White,
-        modifier = Modifier.padding(start = 150.dp)
+        modifier = Modifier.padding(start = 175.dp)
     ) {
 
         Icon(

@@ -167,7 +167,7 @@ fun OrderHistory(
                             it.date?. let { date ->
                                 val formattedDate = SimpleDateFormat(
                                     "dd/MM/yyyy HH:mm",
-                                    Locale.getDefault()
+                                    Locale("vi", "VN")
                                 ).format(date)
                                 Text(
                                     text = formattedDate,
