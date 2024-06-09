@@ -298,7 +298,7 @@ fun CartScreen(userId: String,
                                     Row() {
                                         androidx.compose.material3.Surface(
                                             onClick = {
-                                                // xoa
+                                                cartViewModel.removeItemFromCart(userId, it.id)
                                             },
                                             shape = CircleShape,
                                             color = delete

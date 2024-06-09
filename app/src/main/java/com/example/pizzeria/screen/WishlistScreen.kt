@@ -106,7 +106,7 @@ fun WishlistScreen(userId: String,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screen.Cart.rout)
+                    navController.navigate(Screen.Cart.createRoute(userId!!))
                 },
                 backgroundColor = yellow1,
                 contentColor = Color.White,
@@ -133,30 +133,7 @@ fun WishlistScreen(userId: String,
                         fontWeight = FontWeight.Bold
                     )
                 },
-                navigationIcon = {
-                    Column(
-                        modifier = Modifier.padding(start = 15.dp)
-                    ) {
-                        Button(
-                            onClick = { },
-                            contentPadding = PaddingValues(),
-                            shape = Shapes.small,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = Color.Black
-                            ),
-                            //                    elevation = 5.dp,
-                            modifier = Modifier
-                                .width(38.dp)
-                                .height(38.dp)
-                        ) {
-                            Icon(
-                                painterResource(id = R.drawable.ic_arrow_back),
-                                null
-                            )
-                        }
-                    }
-                },
+
                 actions = {
                     Row(
                         modifier = Modifier.padding(end = 15.dp),
@@ -189,7 +166,7 @@ fun WishlistScreen(userId: String,
                             selected =  selectedItem.value == "Home",
                             onClick = {
                                 selectedItem.value = "Home"
-                                navController.navigate(Screen.Home.rout)
+                                navController.navigate(Screen.Home.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -203,7 +180,7 @@ fun WishlistScreen(userId: String,
                             selected =  selectedItem.value == "Wishlist",
                             onClick = {
                                 selectedItem.value = "Wishlist"
-                                navController.navigate(Screen.Wishlist.rout)
+                                navController.navigate(Screen.Wishlist.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -218,7 +195,7 @@ fun WishlistScreen(userId: String,
                             selected =  selectedItem.value == "Ordered",
                             onClick = {
                                 selectedItem.value = "Ordered"
-                                navController.navigate(Screen.Ordered.rout)
+                                navController.navigate(Screen.Ordered.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(
@@ -232,7 +209,7 @@ fun WishlistScreen(userId: String,
                             selected =  selectedItem.value == "Profile",
                             onClick = {
                                 selectedItem.value = "Profile"
-                                navController.navigate(Screen.Profile.rout)
+                                navController.navigate(Screen.Profile.createRoute(userId!!))
                             },
                             icon = {
                                 Icon(

@@ -1,5 +1,6 @@
 package com.example.pizzeria.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ class UserViewModel: ViewModel() {
                 .addOnSuccessListener { document ->
                     val user = document.toObject(User::class.java)
                     userLiveData.value = user
+                    Log.d("firebaseuser",user.toString())
                 }
                 .addOnFailureListener {
                     userLiveData.value = null

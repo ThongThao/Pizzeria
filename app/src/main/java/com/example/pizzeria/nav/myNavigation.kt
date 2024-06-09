@@ -122,7 +122,7 @@ fun MyNavigation(){
             "order_detail/{userId}/{orderId}",
             arguments = listOf(
                 navArgument("userId") { type = NavType.StringType },
-                navArgument("productId") { type = NavType.StringType }
+                navArgument("orderId") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId")

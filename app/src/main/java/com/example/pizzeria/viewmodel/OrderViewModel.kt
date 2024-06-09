@@ -32,10 +32,10 @@ class OrderViewModel : ViewModel() {
     private val _orders1 = MutableStateFlow<List<Order>>(emptyList())
     val orders1: StateFlow<List<Order>> = _orders1
     fun fetchOrdersForUser1(userId: String) {
-
+        val validStatus = listOf("Delivered","Canceled")
         ordersCollection
             .whereEqualTo("custumerid", userId)
-            .whereEqualTo("status", "Delivered")
+            .whereIn("status", validStatus)
             .addSnapshotListener { snapshot, _ ->
                 snapshot?.let { querySnapshot ->
                     val ordersList = mutableListOf<Order>()

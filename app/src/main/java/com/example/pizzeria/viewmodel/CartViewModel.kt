@@ -1,3 +1,6 @@
+import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pizzeria.model.Order
@@ -14,7 +17,6 @@ import java.util.UUID
 class CartViewModel : ViewModel() {
 
     private val firestore = FirebaseFirestore.getInstance()
-
     fun addToCart(userId: String, cartItem: CartItem) {
         viewModelScope.launch {
             try {
@@ -25,25 +27,33 @@ class CartViewModel : ViewModel() {
                 } else {
                     null
                 }
+
                 if (cart != null) {
-                    val updatedList = cart.listItem.toMutableList()
-                    val existingItemIndex = updatedList.indexOfFirst { it.id == cartItem.id }
-                    if (existingItemIndex != -1) {
-                        val existingItem = updatedList[existingItemIndex]
-                        val updatedItem = existingItem.copy(
-                            quantity =cartItem.quantity,
-                            price = cartItem.price
-                        )
-                        updatedList[existingItemIndex] = updatedItem
-                    } else {
-                        updatedList.add(cartItem)
+                    val listItemInCart = cart.listItem?.toMutableList() ?: mutableListOf()
+                    Log.d("addToCart",listItemInCart.toString())
+                    var existingItem: CartItem? = null
+
+                    for (item in listItemInCart) {
+                        if (item.id == cartItem.id) {
+                            existingItem = item
+                            Log.d("addToCart","Da co trong gio hang")
+                            item.quantity = cartItem.quantity
+                            break
+                        }
                     }
-                    userCartRef.update("listItem", updatedList)
+
+                    if (existingItem == null) {
+                        Log.d("addToCart","Chua co trong gio hang")
+                        listItemInCart.add(cartItem)
+                    }
+                    val updatedTotal = listItemInCart.sumByDouble { it.price * it.quantity }
+                    userCartRef.update("total", updatedTotal)
+                    userCartRef.update("listItem", listItemInCart)
                 } else {
                     val newCart = Cart(
                         idCart = UUID.randomUUID().toString(),
                         idCustomer = userId,
-                        listItem = listOf(cartItem),
+                        listItem = listOf(cartItem), // Start with the new cartItem
                         total = cartItem.price * cartItem.quantity
                     )
                     userCartRef.set(newCart)
@@ -55,19 +65,7 @@ class CartViewModel : ViewModel() {
     }
 
 
-    fun saveCartToFirestore(userId: String, cart: Cart, onSuccess: () -> Unit, onError: (String) -> Unit) {
-        viewModelScope.launch {
-            try {
-                firestore.collection("carts")
-                    .document(userId)
-                    .set(cart)
-                    .addOnSuccessListener { onSuccess() }
-                    .addOnFailureListener { e -> onError(e.message ?: "Error saving cart") }
-            } catch (e: Exception) {
-                onError(e.message ?: "Error saving cart")
-            }
-        }
-    }
+
     private val _carts = MutableStateFlow<List<CartItem>>(emptyList())
     val carts:  StateFlow<List<CartItem>> = _carts
 
@@ -76,6 +74,7 @@ class CartViewModel : ViewModel() {
             try {
                 val snapshot = firestore.collection("carts").document(userId).get().await()
                 val cart = snapshot.toObject(Cart::class.java)
+                Log.d("firebasecart",cart.toString())
                 _carts.value = (cart?.listItem ?: emptyList()) as List<CartItem>
             } catch (e: Exception) {
                 // Handle exception
@@ -149,7 +148,7 @@ class CartViewModel : ViewModel() {
                     null
                 }
                 if (cart != null) {
-                    val updatedList = cart.listItem.toMutableList()
+                    val updatedList = cart.listItem!!.toMutableList()
                     val existingItemIndex = updatedList.indexOfFirst { it.id == cartItem.id }
                     if (existingItemIndex != -1) {
                         val existingItem = updatedList[existingItemIndex]
@@ -171,7 +170,30 @@ class CartViewModel : ViewModel() {
             getCart2(userId)
         }
     }
-
+    fun removeItemFromCart(userId: String, itemId: String) {
+        viewModelScope.launch {
+            try {
+                val userCartRef = firestore.collection("carts").document(userId)
+                val cartSnapshot = userCartRef.get().await()
+                val cart = cartSnapshot.toObject(Cart::class.java)
+                if (cart != null) {
+                    val updatedList = cart.listItem?.toMutableList() ?: mutableListOf()
+                    val itemToRemove = updatedList.find { it.id == itemId }
+                    if (itemToRemove != null) {
+                        updatedList.remove(itemToRemove)
+                        userCartRef.update("listItem", updatedList)
+                        // Optionally update the total price
+                        val updatedTotal = updatedList.sumByDouble { it.price * it.quantity }
+                        userCartRef.update("total", updatedTotal)
+                    }
+                }
+            } catch (e: Exception) {
+                // Handle exception
+            }
+            getCart(userId)
+            getCart2(userId)
+        }
+    }
 
     // Hàm xóa giỏ hàng sau khi đặt hàng thành công (Tuỳ thuộc vào yêu cầu của ứng dụng)
     private suspend fun clearCart(userId: String) {

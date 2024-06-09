@@ -144,7 +144,7 @@ Column(modifier = Modifier
         }
             product?.productID?.let { productId ->
                 FavoriteButton(
-                    userId = it?.userID!!,
+                    userId = userId!!,
                     productId = productId,
                     favoriteViewModel = favoriteViewModel
                 )
@@ -276,24 +276,7 @@ Column(modifier = Modifier
                 price = product!!.productPrice!!,
                 quantity = value,
             )
-            val cart = Cart(
-                idCart = UUID.randomUUID().toString(),
-                idCustomer = user?.userID!!,
-                listItem = listOf(cartItem),
-                total = cartItem.price * cartItem.quantity
-            )
-            cartViewModel.addToCart(user?.userID!!,cartItem)
-            val idCart = UUID.randomUUID().toString()  // Function to generate unique cart id
-            cartViewModel.saveCartToFirestore(
-                userId = user?.userID ?: "",
-                cart = cart,
-                onSuccess = {
-                    // Success handling
-                },
-                onError = { errorMessage ->
-                    // Error handling
-                }
-            )
+            cartViewModel.addToCart(user?.userID!!,cartItem) // Function to generate unique cart id
             navController.navigate(Screen.Home.createRoute(user?.userID!!))
 
         },

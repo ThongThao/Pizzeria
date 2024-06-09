@@ -102,7 +102,7 @@ fun OrderedScreen(
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = {
-                            navController.navigate(Screen.Cart.rout)
+                            navController.navigate(Screen.Cart.createRoute(userId!!))
                         },
                         backgroundColor = yellow1,
                         contentColor = Color.White,
@@ -174,7 +174,7 @@ fun OrderedScreen(
                                     selected = selectedItem.value == "Home",
                                     onClick = {
                                         selectedItem.value = "Home"
-                                        navController.navigate(Screen.Home.rout)
+                                        navController.navigate(Screen.Home.createRoute(userId!!))
                                     },
                                     icon = {
                                         Icon(
@@ -189,7 +189,7 @@ fun OrderedScreen(
                                     selected = selectedItem.value == "Wishlist",
                                     onClick = {
                                         selectedItem.value = "Wishlist"
-                                        navController.navigate(Screen.Wishlist.rout)
+                                        navController.navigate(Screen.Wishlist.createRoute(userId!!))
                                     },
                                     icon = {
                                         Icon(
@@ -205,7 +205,7 @@ fun OrderedScreen(
                                     selected = selectedItem.value == "Ordered",
                                     onClick = {
                                         selectedItem.value = "Ordered"
-                                        navController.navigate(Screen.Ordered.rout)
+                                        navController.navigate(Screen.Ordered.createRoute(userId!!))
                                     },
                                     icon = {
                                         Icon(
@@ -220,7 +220,7 @@ fun OrderedScreen(
                                     selected = selectedItem.value == "Profile",
                                     onClick = {
                                         selectedItem.value = "Profile"
-                                        navController.navigate(Screen.Profile.rout)
+                                        navController.navigate(Screen.Profile.createRoute(userId!!))
                                     },
                                     icon = {
                                         Icon(

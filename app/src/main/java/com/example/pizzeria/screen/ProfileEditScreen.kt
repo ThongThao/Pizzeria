@@ -119,7 +119,7 @@ fun EditProfileScreen(userId: String?,
                             },
                             navigationIcon = {
                                 Button(
-                                    onClick = { },
+                                    onClick = { navController.popBackStack()},
                                     contentPadding = PaddingValues(),
                                     shape = Shapes.small,
                                     colors = ButtonDefaults.buttonColors(
