@@ -250,7 +250,8 @@ Column(modifier = Modifier
             iconResouce = R.drawable.ic_minus,
             elevation = null,
             color = red
-        ) { value-- }
+        ) {if (value > 1) {
+            value-- }}
 
         Text(
             text = "$value",

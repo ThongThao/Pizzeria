@@ -2,8 +2,6 @@ package com.example.pizzeria.screen
 
 import CartViewModel
 import android.annotation.SuppressLint
-import android.net.Uri
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,7 +24,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ButtonElevation
 import androidx.compose.material.Surface
 import androidx.compose.material3.Surface
 import androidx.compose.material.icons.Icons
@@ -38,7 +33,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
@@ -60,23 +54,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.pizzeria.R
 import com.example.pizzeria.model.User
 import com.example.pizzeria.nav.Screen
 import com.example.pizzeria.ui.theme.Shapes
-import com.example.pizzeria.ui.theme.black
 import com.example.pizzeria.ui.theme.blackcart
 import com.example.pizzeria.ui.theme.delete
 import com.example.pizzeria.ui.theme.grayFont
 import com.example.pizzeria.ui.theme.lightGray
-import com.example.pizzeria.ui.theme.menu
 import com.example.pizzeria.ui.theme.red
 import com.example.pizzeria.ui.theme.yellow1
 import com.example.pizzeria.ui.theme.yellow2
@@ -216,7 +206,7 @@ fun CartScreen(userId: String,
                                                 it.quantity?.let { quantity ->
                                                     val totalPrice = price * quantity
                                                     Text(
-                                                        text = "$totalPrice", // hiển thị tổng tiền của mặt hàng
+                                                        text = String.format("$%.2f", totalPrice), // hiển thị tổng tiền của mặt hàng với 2 chữ số thập phân
                                                         fontSize = 17.sp,
                                                         color = Color.Black,
                                                         style = MaterialTheme.typography.titleMedium,
@@ -224,6 +214,7 @@ fun CartScreen(userId: String,
                                                     )
                                                 }
                                             }
+
                                         }
                                         Column(
                                             modifier = Modifier
@@ -235,7 +226,10 @@ fun CartScreen(userId: String,
                                             var value by remember { mutableStateOf(it.quantity) }
 
                                             Button(
-                                                onClick = { value++ },
+                                                onClick = { value++
+                                                    cartViewModel.updateCartItemQuantity(userId, it, value)
+
+                                                          },
                                                 contentPadding = PaddingValues(),
                                                 shape = CircleShape,
                                                 colors = ButtonDefaults.buttonColors(
@@ -275,7 +269,11 @@ fun CartScreen(userId: String,
                                             }
                                             Spacer(modifier = Modifier.height(8.dp))
                                             Button(
-                                                onClick = { value-- },
+                                                onClick = { if (value > 1) {
+                                                    value--
+                                                    cartViewModel.updateCartItemQuantity(userId, it, value)
+                                                }
+                                                          },
                                                 contentPadding = PaddingValues(),
                                                 shape = CircleShape,
                                                 colors = ButtonDefaults.buttonColors(
@@ -379,11 +377,12 @@ fun CartScreen(userId: String,
                         ) {
 
                             Text(
-                                text = "Subtotal: $${it.total}",
+                                text = String.format("Subtotal: $%.2f", it.total),
                                 fontSize = 18.sp,
                                 color = blackcart,
                                 fontWeight = FontWeight.Medium
                             )
+
                             Text(
                                 text = "Fee Delivery: $ " + "0",
                                 fontSize = 18.sp,
@@ -422,7 +421,7 @@ fun CartScreen(userId: String,
                                     )
                                     Spacer(modifier = Modifier.width(5.dp))
                                     Text(
-                                        text = "$${it.total}",
+                                        text = String.format("$%.2f", it.total),
                                         fontSize = 20.sp,
                                         color = Black,
                                         fontWeight = FontWeight.Bold

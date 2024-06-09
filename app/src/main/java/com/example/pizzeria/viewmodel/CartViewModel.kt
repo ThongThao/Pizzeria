@@ -1,6 +1,5 @@
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pizzeria.model.CategoryData
 import com.example.pizzeria.model.Order
 import com.example.pizzeria.model.OrderItem
 import com.example.pizzeria.model.User
@@ -139,6 +138,40 @@ class CartViewModel : ViewModel() {
             }
         }
     }
+    fun updateCartItemQuantity(userId: String, cartItem: CartItem, newQuantity: Int) {
+        viewModelScope.launch {
+            try {
+                val userCartRef = firestore.collection("carts").document(userId)
+                val cartSnapshot = userCartRef.get().await()
+                val cart = if (cartSnapshot.exists()) {
+                    cartSnapshot.toObject(Cart::class.java)
+                } else {
+                    null
+                }
+                if (cart != null) {
+                    val updatedList = cart.listItem.toMutableList()
+                    val existingItemIndex = updatedList.indexOfFirst { it.id == cartItem.id }
+                    if (existingItemIndex != -1) {
+                        val existingItem = updatedList[existingItemIndex]
+                        val updatedItem = existingItem.copy(
+                            quantity = newQuantity,
+                            price = existingItem.price
+                        )
+                        updatedList[existingItemIndex] = updatedItem
+                    }
+                    userCartRef.update("listItem", updatedList)
+                    // Optionally update the total price
+                    val updatedTotal = updatedList.sumByDouble { it.price * it.quantity }
+                    userCartRef.update("total", updatedTotal)
+                }
+            } catch (e: Exception) {
+                // Handle exception
+            }
+            getCart(userId)
+            getCart2(userId)
+        }
+    }
+
 
     // Hàm xóa giỏ hàng sau khi đặt hàng thành công (Tuỳ thuộc vào yêu cầu của ứng dụng)
     private suspend fun clearCart(userId: String) {
