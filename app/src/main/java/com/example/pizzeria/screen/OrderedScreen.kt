@@ -323,11 +323,17 @@ fun OrderedScreen(
                                                 .fillMaxHeight(),
                                             verticalArrangement = Arrangement.Center
                                         ) {
-                                            androidx.compose.material.Text(
-                                                text = "10:30 am",
-                                                color = grayFont,
-                                                fontSize = 18.sp,
-                                            )
+                                            it.date?. let { date ->
+                                                val formattedDate = SimpleDateFormat(
+                                                    "HH:mm",
+                                                    Locale.getDefault()
+                                                ).format(date)
+                                                androidx.compose.material.Text(
+                                                    text = formattedDate,
+                                                    color = grayFont,
+                                                    fontSize = 18.sp,
+                                                )
+                                            }
                                         }
                                         Column(
                                             modifier = Modifier

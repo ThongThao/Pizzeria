@@ -135,7 +135,7 @@ fun CheckOutScreen(
                     modifier = Modifier.padding(start = 15.dp)
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = { navController.popBackStack()},
                         contentPadding = PaddingValues(),
                         shape = Shapes.small,
                         colors = ButtonDefaults.buttonColors(
@@ -534,7 +534,7 @@ fun CheckOutScreen(
                                         )
                                     }
                                 }
-                                navController.navigate(Screen.Checkoutok.rout)
+                                navController.navigate(Screen.Checkoutok.createRoute(user?.userID!!))
                             },
 
                             shape = RoundedCornerShape(8.dp),

@@ -53,7 +53,10 @@ import com.example.pizzeria.ui.theme.red
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CheckOutSuccess(navController: NavHostController){
+fun CheckOutSuccess(
+    navController: NavHostController,
+    userId:String
+){
     Scaffold (
         content = {
             Column(
@@ -106,7 +109,7 @@ fun CheckOutSuccess(navController: NavHostController){
                         Spacer(modifier = Modifier.height(40.dp))
                         Button(
                             onClick = {
-                               navController.navigate(Screen.Home.rout)
+                               navController.navigate(Screen.Home.createRoute(userId))
                             },
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
@@ -130,8 +133,3 @@ fun CheckOutSuccess(navController: NavHostController){
     )
 }
 
-@Preview
-@Composable
-fun previewCheckOutSuccess(){
-    CheckOutSuccess(rememberNavController())
-}

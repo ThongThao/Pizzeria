@@ -141,8 +141,10 @@ fun MyNavigation(){
             val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
             EditProfileScreen(userId,navController=navController, LocalContext.current)
         }
-        composable(Screen.Checkoutok.rout){
-            CheckOutSuccess(navController = navController)
+        composable(Screen.Checkoutok.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            CheckOutSuccess(navController = navController, userId!!)
         }
         composable(Screen.Product.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
         ) { backStackEntry ->

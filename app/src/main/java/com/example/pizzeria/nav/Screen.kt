@@ -40,8 +40,10 @@ sealed class Screen(val rout: String){
     ){
         fun createRoute(userId: String) = "Checkout/$userId"
     }
-    object Checkoutok: Screen( rout = "Checkoutok}",
-    )
+    object Checkoutok: Screen( rout = "Checkoutok/{userId}",
+    ){
+        fun createRoute(userId: String) = "Checkoutok/$userId"
+    }
 
 }
 //
