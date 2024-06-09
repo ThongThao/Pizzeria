@@ -36,6 +36,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -59,20 +60,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.pizzeria.R
+import com.example.pizzeria.model.User
 import com.example.pizzeria.nav.Screen
 import com.example.pizzeria.ui.theme.PizzeriaTheme
 import com.example.pizzeria.ui.theme.bg
 import com.example.pizzeria.ui.theme.red
+import com.example.pizzeria.viewmodel.SignInViewModel
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
-    navController: NavHostController
-    ){
-
+    navController: NavHostController,
+    signInViewModel: SignInViewModel = viewModel(),
+ navToHome:(User) -> Unit,
+){
+    val viewModel: SignInViewModel = viewModel()
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val user by viewModel.user.observeAsState()
         Box(modifier = Modifier.fillMaxSize()
         ){
             Image(
@@ -95,8 +105,8 @@ fun SignInScreen(
             Spacer(modifier = Modifier.size(35.dp))
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {  },
+                value = email,
+                onValueChange = { email=it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
@@ -120,8 +130,8 @@ fun SignInScreen(
             )
             Spacer(modifier = Modifier.size(9.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = {  },
+                value = password,
+                onValueChange = { password=it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
@@ -144,9 +154,32 @@ fun SignInScreen(
                 label = { Text(text = "Password", color = Color(0xC3B91C00))},
             )
             Spacer(modifier = Modifier.size(30.dp))
-
+            errorMessage?.let { message ->
+                Text(
+                    text = message,
+                    color = Color.Red,
+                    fontSize = 15.sp,
+                )
+            }
+            Spacer(modifier = Modifier.size(30.dp))
             Button(onClick = {
-                             navController.navigate(Screen.Cart.rout)
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    signInViewModel.signIn(
+                        email = email,
+                        password = password,
+                        onSuccess = {
+                            user?.let {
+                                navToHome(it)
+                            }
+                        },
+                        onError = { message ->
+                            errorMessage = message
+                        }
+
+                    )
+                } else {
+                    errorMessage = "Vui lòng điền thông tin"
+                }
                              },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -223,10 +256,3 @@ fun SignInScreen(
         }
 }
 
-@Preview()
-@Composable
-fun signInPreview(){
-    PizzeriaTheme {
-        SignInScreen(rememberNavController())
-    }
-}

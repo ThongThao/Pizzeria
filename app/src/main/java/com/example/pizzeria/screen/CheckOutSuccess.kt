@@ -106,7 +106,7 @@ fun CheckOutSuccess(navController: NavHostController){
                         Spacer(modifier = Modifier.height(40.dp))
                         Button(
                             onClick = {
-                                // chuyen den trang chi tiet don hang
+                               navController.navigate(Screen.Home.rout)
                             },
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(

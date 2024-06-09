@@ -58,10 +58,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.pizzeria.R
 import com.example.pizzeria.model.CategoryData
 import com.example.pizzeria.model.ProductData
+import com.example.pizzeria.model.User
 import com.example.pizzeria.ui.theme.black
 import com.example.pizzeria.ui.theme.blackcart
 import com.example.pizzeria.ui.theme.grayFont
@@ -71,7 +73,7 @@ import com.example.pizzeria.ui.theme.yellow2
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductCard(productList: List<ProductData>) {
+fun ProductCard(productList: List<ProductData>,navController: NavController,user: User) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         contentPadding = PaddingValues(5.dp)
@@ -79,7 +81,9 @@ fun ProductCard(productList: List<ProductData>) {
         items(productList) {item ->
 
             Surface(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate("productDetail/${user.userID}/${item.productID}")
+                          },
                 shape = RoundedCornerShape(17.dp),
                 color = Color.White,
                 modifier = Modifier

@@ -18,9 +18,14 @@ class ProductRepository {
             emptyList()
         }
     }
-    fun getProductByName(productName: String?): Flow<ProductData?> {
-        return flow {
-            emit(getProducts().find { it.productName == productName })
+    suspend fun getProductById(productId: String): ProductData? {
+        return try {
+            val document = db.document(productId).get().await()
+            document.toObject(ProductData::class.java)?.apply { productID = document.id }
+        } catch (e: Exception) {
+            null
         }
     }
+
+
 }

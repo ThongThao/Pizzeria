@@ -33,7 +33,7 @@ import com.example.pizzeria.ui.theme.red
 import com.example.pizzeria.ui.theme.yellow1
 
 @Composable
-fun StartScreen(navController: NavHostController){
+fun StartScreen(navController: NavHostController,navToLogin: () -> Unit){
     val offset = Offset(5.0f, 6.0f)
     Column(
         modifier = Modifier
@@ -84,7 +84,7 @@ fun StartScreen(navController: NavHostController){
 
 //        Spacer(modifier = Modifier.size(20.dp))
         Button(onClick = {
-            navController.navigate(Screen.Home.rout)
+            navToLogin()
         },
 //            modifier = Modifier.height(45.dp),
             shape = RoundedCornerShape(40.dp),

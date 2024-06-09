@@ -24,22 +24,31 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.pizzeria.R
 import com.example.pizzeria.register.SignUpScreen
 import com.example.pizzeria.StartScreen
 import com.example.pizzeria.login.SignInScreen
 import com.example.pizzeria.screen.CartScreen
+import com.example.pizzeria.screen.CheckOutScreen
 import com.example.pizzeria.screen.CheckOutSuccess
 import com.example.pizzeria.screen.DetailItem
+import com.example.pizzeria.screen.EditProfileScreen
+//import com.example.pizzeria.screen.DetailItem
 import com.example.pizzeria.screen.HomeScreen
+import com.example.pizzeria.screen.OrderDetailItemScreen
+import com.example.pizzeria.screen.OrderHistory
 import com.example.pizzeria.screen.OrderedScreen
+import com.example.pizzeria.screen.ProductListCategory
 import com.example.pizzeria.screen.ProductListItem
 import com.example.pizzeria.screen.ProfileScreen
 import com.example.pizzeria.screen.WishlistScreen
@@ -54,37 +63,114 @@ fun MyNavigation(){
         startDestination = Screen.StartScreen.rout
     ){
         composable(Screen.StartScreen.rout){
-            StartScreen(navController = navController)
+            StartScreen(navController = navController, navToLogin = {
+                navController.navigate(Screen.SignInScreen.rout)
+            })
         }
-        composable(Screen.Home.rout){
-            HomeScreen(navController = navController)
+        composable(Screen.Home.rout, arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            HomeScreen(userId,  navToAll = {user ->
+                navController.navigate(Screen.Product.createRoute(user.userID ?: ""))},
+                navToCart = {user ->
+                    navController.navigate(Screen.Cart.createRoute(user.userID ?: ""))},
+                navToOrder = {user ->
+                    navController.navigate(Screen.Ordered.createRoute(user.userID ?: ""))},
+                navToWishList = {user ->
+                    navController.navigate(Screen.Wishlist.createRoute(user.userID ?: ""))},
+                navController = navController)
         }
         composable(Screen.SignInScreen.rout){
-            SignInScreen(navController = navController)
+            SignInScreen(navController = navController,
+                navToHome = {user ->
+                    navController.navigate(Screen.Home.createRoute(user.userID ?: ""))},
+                )
         }
         composable(Screen.SignUpScreen.rout){
-            SignUpScreen(navController = navController)
+            SignUpScreen(navController = navController,
+                navToSignIn = {navController.navigate(Screen.SignInScreen.rout)})
         }
-        composable(Screen.Wishlist.rout){
-            WishlistScreen(navController = navController)
+        composable(Screen.Wishlist.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            WishlistScreen(userId!!,navController = navController)
         }
-        composable(Screen.Cart.rout){
-            CartScreen(navController = navController)
+        composable(Screen.Cart.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            CartScreen(userId!!,navController = navController, navToCheckout = {
+                    user ->
+                navController.navigate(Screen.Checkout.createRoute(user.userID ?: ""))
+            })
         }
-        composable(Screen.Ordered.rout){
-            OrderedScreen(navController = navController)
+        composable(Screen.Checkout.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            CheckOutScreen(userId,navController = navController, )
         }
-        composable(Screen.Profile.rout){
-            ProfileScreen(navController = navController)
+        composable(Screen.Ordered.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            OrderedScreen(userId!!,navController = navController)
         }
-        composable(Screen.Product.rout){
-            ProductListItem(navController = navController)
+        composable(Screen.OrderHistory.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            OrderHistory(userId!!,navController = navController)
+        }
+        composable(
+            "order_detail/{orderId}",
+            arguments = listOf(navArgument("orderId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val orderId = backStackEntry.arguments?.getString("orderId") ?: return@composable
+            OrderDetailItemScreen(
+                orderId = orderId,
+                navController = navController
+            )
+        }
+        composable(Screen.Profile.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            ProfileScreen(userId, navToOrder = {user ->
+                navController.navigate(Screen.OrderHistory.createRoute(user.userID ?: ""))},navController=navController,LocalContext.current)
+        }
+        composable(
+            "profile/{userId}",
+            arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
+            EditProfileScreen(userId,navController=navController, LocalContext.current)
+        }
+        composable(Screen.Checkoutok.rout){
+            CheckOutSuccess(navController = navController)
+        }
+        composable(Screen.Product.rout,arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            ProductListItem(userId,navController = navController)
         }
 
-        composable("itemDetail/{productName}") { backStackEntry ->
-            val productName = backStackEntry.arguments?.getString("productName")
-            DetailItem(productName)
+        composable("productDetail/{userId}/{productId}",
+            arguments = listOf(
+                navArgument("userId") { type = NavType.StringType },
+                navArgument("productId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            val productId = backStackEntry.arguments?.getString("productId")
+            DetailItem(navController,productId, userId )
         }
+        composable("productList/{userId}/{categoryName}",
+            arguments = listOf(
+                navArgument("userId") { type = NavType.StringType },
+                navArgument("categoryName") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            val categoryName = backStackEntry.arguments?.getString("categoryName")
+            ProductListCategory(userId, categoryName!!,navController )
+        }
+
     }
 }
 

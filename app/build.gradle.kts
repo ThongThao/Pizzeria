@@ -69,6 +69,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -77,11 +78,13 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation( "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.4.0")
+
     //Icons
 //    implementation("androidx.compose.material:material-icons-extended:1.6.4")
     // Navigation
     implementation ("androidx.navigation:navigation-compose:2.7.5")
-
+    implementation ("org.mindrot:jbcrypt:0.4")
     //location
     implementation ("com.google.android.gms:play-services-location:21.2.0")
 
