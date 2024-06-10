@@ -319,53 +319,6 @@ fun CartScreen(userId: String,
                         }
                     }
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                        .padding(horizontal = 16.dp, vertical = 10.dp)
-                ) {
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        placeholder = {
-                            Text(
-                                "Enter your Discount code",
-                                color = grayFont
-                            )
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = yellow2,
-                            unfocusedBorderColor = yellow1
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        shape = RoundedCornerShape(42.dp),
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        singleLine = true,
-                        trailingIcon = {
-                            Button(
-                                onClick = { /*TODO*/ },
-                                shape = RoundedCornerShape(42.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    backgroundColor = yellow1,
-                                    contentColor = White
-                                ),
-                                modifier = Modifier
-                                    .height(42.dp)
-                                    .padding(end = 4.dp)
-                            ) {
-                                Text(
-                                    text = "Apply",
-                                    fontSize = 17.sp,
-                                    color = White,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                        }
-                    )
-                }
                 carts2.let {
                     it.forEach {
                         Row(

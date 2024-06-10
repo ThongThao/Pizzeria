@@ -384,6 +384,23 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                                     fontWeight = FontWeight.Medium
                                 )
                             }
+                            Row(
+                                modifier = Modifier
+                                    .padding(bottom = 15.dp)
+                            ) {
+                                Text(
+                                    text = "Status :",
+                                    fontSize = 17.sp,
+                                    color = Color.DarkGray
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = "${orderDetail?.status}",
+                                    fontSize = 20.sp,
+                                    color = green,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
                             if (orderDetail?.status == "Pending") {
                                 Row(modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
