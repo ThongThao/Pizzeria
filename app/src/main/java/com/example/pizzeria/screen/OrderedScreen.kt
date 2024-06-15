@@ -304,7 +304,7 @@ fun OrderedScreen(
                                                     .padding(bottom = 6.dp)
                                             )
                                             androidx.compose.material.Text(
-                                                text = "$${it.total}",
+                                                text = String.format("Subtotal: $%.2f", it.total),
                                                 color = Color.DarkGray,
                                                 fontSize = 18.sp,
                                                 fontWeight = FontWeight.SemiBold,

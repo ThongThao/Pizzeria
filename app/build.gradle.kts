@@ -64,7 +64,7 @@ dependencies {
     implementation ("androidx.compose.material3:material3:1.0.0")
     implementation("com.google.ar.sceneform:filament-android:1.17.1")
     implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.core:core-ktx:+")
+//    implementation("androidx.core:core-ktx:+")
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")

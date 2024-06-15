@@ -113,7 +113,7 @@ fun SignUpScreen(
                 onValueChange = { name =it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -132,13 +132,13 @@ fun SignUpScreen(
                 ),
                 label = { Text(text = "Username", color = Color(0xC3B91C00))},
             )
-            Spacer(modifier = Modifier.size(9.dp))
+            Spacer(modifier = Modifier.size(8.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = { email=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -157,13 +157,13 @@ fun SignUpScreen(
                 ),
                 label = { Text(text = "Email", color = Color(0xC3B91C00))},
             )
-            Spacer(modifier = Modifier.size(9.dp))
+            Spacer(modifier = Modifier.size(8.dp))
             OutlinedTextField(
                 value = phone,
                 onValueChange = { phone =it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -182,13 +182,13 @@ fun SignUpScreen(
                 ),
                 label = { Text(text = "Phone number", color = Color(0xC3B91C00))},
             )
-            Spacer(modifier = Modifier.size(9.dp))
+            Spacer(modifier = Modifier.size(8.dp))
             OutlinedTextField(
                 value = address,
                 onValueChange = { address=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -207,13 +207,13 @@ fun SignUpScreen(
                 ),
                 label = { Text(text = "Address", color = Color(0xC3B91C00))},
             )
-            Spacer(modifier = Modifier.size(9.dp))
+            Spacer(modifier = Modifier.size(8.dp))
             OutlinedTextField(
                 value = password,
                 onValueChange = { password=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -232,13 +232,13 @@ fun SignUpScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 label = { Text(text = "Password", color = Color(0xC3B91C00))},
             )
-            Spacer(modifier = Modifier.size(9.dp))
+            Spacer(modifier = Modifier.size(8.dp))
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword =it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -247,7 +247,7 @@ fun SignUpScreen(
                         contentDescription = "",
                         tint = Color(0xC3B91C00))
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Transparent,

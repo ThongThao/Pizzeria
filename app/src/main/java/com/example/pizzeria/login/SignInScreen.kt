@@ -83,6 +83,7 @@ fun SignInScreen(
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val user by viewModel.user.observeAsState()
+
         Box(modifier = Modifier.fillMaxSize()
         ){
             Image(
@@ -109,7 +110,7 @@ fun SignInScreen(
                 onValueChange = { email=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(75.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -134,7 +135,7 @@ fun SignInScreen(
                 onValueChange = { password=it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(75.dp),
+                    .height(60.dp),
 //                    .focusRequester(),
                 shape = RoundedCornerShape(12.dp),
                 leadingIcon = {
@@ -143,7 +144,7 @@ fun SignInScreen(
                         contentDescription = "",
                         tint = Color(0xC3B91C00))
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
@@ -153,7 +154,7 @@ fun SignInScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 label = { Text(text = "Password", color = Color(0xC3B91C00))},
             )
-            Spacer(modifier = Modifier.size(30.dp))
+            Spacer(modifier = Modifier.size(20.dp))
             errorMessage?.let { message ->
                 Text(
                     text = message,
@@ -161,7 +162,7 @@ fun SignInScreen(
                     fontSize = 15.sp,
                 )
             }
-            Spacer(modifier = Modifier.size(30.dp))
+            Spacer(modifier = Modifier.size(20.dp))
             Button(onClick = {
                 if (email.isNotEmpty() && password.isNotEmpty()) {
                     signInViewModel.signIn(

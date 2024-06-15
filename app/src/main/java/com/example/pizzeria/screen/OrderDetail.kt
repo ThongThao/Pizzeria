@@ -378,7 +378,7 @@ fun OrderDetailItemScreen(navController: NavController ,orderId: String,
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "$${orderDetail?.total}",
+                                    text = String.format("Subtotal: $%.2f", orderDetail?.total),
                                     fontSize = 17.sp,
                                     color = blackcart,
                                     fontWeight = FontWeight.Medium

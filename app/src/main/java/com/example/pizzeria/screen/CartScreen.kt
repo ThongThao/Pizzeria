@@ -142,7 +142,7 @@ fun CartScreen(userId: String,
                     LazyColumn(
                         contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
                         state = scrollState,
-                        modifier = Modifier.height(610.dp)
+                        modifier = Modifier.height(550.dp)
                     ) {
                         it.forEach {
                             item {

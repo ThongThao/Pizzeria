@@ -502,7 +502,7 @@ fun CheckOutScreen(
                                     )
                                     Spacer(modifier = Modifier.width(20.dp))
                                     Text(
-                                        text = "$${it.total}",
+                                        text = String.format("Subtotal: $%.2f", it.total),
                                         fontSize = 20.sp,
                                         color = Color.Black,
                                         fontWeight = FontWeight.Bold

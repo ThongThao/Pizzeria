@@ -277,13 +277,13 @@ Column(modifier = Modifier
                 quantity = value,
             )
             cartViewModel.addToCart(user?.userID!!,cartItem) // Function to generate unique cart id
-            navController.navigate(Screen.Home.createRoute(user?.userID!!))
+            navController.navigate(Screen.Cart.createRoute(user?.userID!!))
 
         },
         shape = CircleShape,
         backgroundColor = redlight,
         contentColor = Color.White,
-        modifier = Modifier.padding(start = 175.dp)
+        modifier = Modifier.padding(start = 155.dp)
     ) {
 
         Icon(

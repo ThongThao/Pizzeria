@@ -373,6 +373,7 @@ fun HeaderLocation(user: User){
                             contentDescription = "location icon",
                             modifier = Modifier
                                 .size(15.dp)
+                                .padding(end = 5.dp)
                                 .align(Alignment.CenterStart),
                             tint = Color.Unspecified
                         )
@@ -381,6 +382,7 @@ fun HeaderLocation(user: User){
                             text = location,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
+                            maxLines = 1,
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .widthIn(max = 210.dp)
